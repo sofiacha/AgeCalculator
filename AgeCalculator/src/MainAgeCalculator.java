@@ -32,7 +32,7 @@ import java.awt.Font;
 		/**
 		 * Launch the application.
 		 */
-		int age;
+		int age, months, days, daysbef, min, h;
 		private JTextField textField_2;
 		
 		public static void main(String[] args) {
@@ -101,31 +101,40 @@ import java.awt.Font;
 					String selecteday = (String) daycombox.getSelectedItem();
 					String selectedmonth = (String) monthComboBox.getSelectedItem();
 					String selectedyear = (String) yearComboBox.getSelectedItem();
-					String date = selectedmonth + " " +selecteday + ", " + selectedyear;
+					String selectedhours = (String) hoursComboBox.getSelectedItem();
+					String selectedminutes = (String) minutesComboBox.getSelectedItem();
+					String date = selectedmonth + " " +selecteday + ", " + selectedyear +" "+selectedhours+":"+selectedminutes;
 					//System.out.println(date);
 					
-					DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-					DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+					DateFormat format = new SimpleDateFormat("MMMM d, yyyy HH:mm", Locale.ENGLISH);
+					DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy HH:mm", Locale.ENGLISH);
 					Date currentdate = new Date();
 					System.out.println(dateFormat.format(currentdate));
 					try {
 						Date realdate = format.parse(date);
-						System.out.println(dateFormat.format(realdate));
+						//System.out.println(dateFormat.format(realdate));
 						 	long diffInMillies = currentdate.getTime() - realdate.getTime();
-						 	System.out.println(TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS));
+						 	System.out.println(TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS));
 						 	age = (int) (TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS) / 365);
+						 	daysbef = (int) (TimeUnit.DAYS.convert(diffInMillies,TimeUnit.MILLISECONDS) % 365);
+						 	months = daysbef/30;
+						 	days = daysbef - months*30;
+						 	h = (int) (TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS) -  (age*365*24 + months*30*24 + days*24));
+						 	min = (int) (TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS) -  (age*365*24*60 + months*30*24*60 + days*24*60));
+						 	//System.out.println(min);
+						 	//System.out.println(months);
 						 	
-						 	textField = new JTextField("  Your age is: " + Integer.toString(age));
+						 	textField = new JTextField("  Your are alive: " + Integer.toString(age) + " years " + Integer.toString(months) + " months and "+ Integer.toString(days) +" days!");
 							textField.setBackground(UIManager.getColor("Button.background"));
 							textField.setBorder(BorderFactory.createMatteBorder(2,2,2,2,UIManager.getColor("Button.background")));
-							textField.setBounds(20, 50, 170, 50);
+							textField.setBounds(20, 50, 450, 50);
 							getContentPane().add(textField);
-							textField.setFont(new Font("Tahoma", Font.BOLD, 20));
+							textField.setFont(new Font("Tahoma", Font.BOLD, 15));
 							textField.setForeground(Color.PINK);
 							textField.setColumns(10);
 						 	//System.out.println(i);
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
+						//Auto-generated catch block
 						e.printStackTrace();
 					}
 				

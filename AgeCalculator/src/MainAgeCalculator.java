@@ -3,8 +3,8 @@
 	import javax.swing.JFrame;
 	import java.awt.FlowLayout;
 	import javax.swing.JTextField;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
+	import javax.swing.BorderFactory;
+	import javax.swing.JButton;
 	import javax.swing.JList;
 	import javax.swing.JScrollPane;
 	import javax.swing.ListSelectionModel;
@@ -15,17 +15,17 @@ import javax.swing.JButton;
 	import java.text.DateFormat;
 	import java.text.ParseException;
 	import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.Date;
+	import java.time.LocalDate;
+	import java.time.Period;
+	import java.time.ZoneId;
+	import java.util.Date;
 	import java.util.Locale;
 	import java.util.concurrent.TimeUnit;
 
 	import javax.swing.JComboBox;
 	import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.Font;
+	import java.awt.Color;
+	import java.awt.Font;
 
 
 	public class MainAgeCalculator extends JFrame {

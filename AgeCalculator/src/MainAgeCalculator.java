@@ -29,8 +29,12 @@ import java.awt.Font;
 
 
 	public class MainAgeCalculator extends JFrame {
-		private JTextField textField;
-		private JTextField textField_1;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5955805502901982528L;
+
+		private JTextField textField, textField_3;
 
 		/**
 		 * Launch the application.
@@ -60,7 +64,7 @@ import java.awt.Font;
 			setBounds(100, 100, 480, 200);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
-			//final String date;
+			//String lists to use in the visible lists for month day year hours and minutes
 			String[] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 			String[] day = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12","13","14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24","25","26","27", "28", "29", "30", "31"};
 			String[] year = {"1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991","1992","1993","1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003","2004","2005","2006", "2007", "2008", "2009", "2010", "2011","2012","2013","2014","2015", "2016", "2017"};
@@ -69,7 +73,7 @@ import java.awt.Font;
 			
 			
 			getContentPane().setLayout(null);
-			
+			//declaration and initialisation of five combo boxes
 			final JComboBox daycombox = new JComboBox(day);
 			daycombox.setBounds(10, 11, 49, 20);
 			daycombox.setMaximumRowCount(10);
@@ -95,8 +99,8 @@ import java.awt.Font;
 			minutesComboBox.setBounds(282, 11, 49, 20);
 			yearComboBox.setMaximumRowCount(10);
 			getContentPane().add(minutesComboBox);
-			//System.out.println(age);
 			
+			//button to calculate age, once triggered the selected date from combo boxes are being saved in strings 
 			JButton btnNewButton = new JButton("Calculate Age");
 			btnNewButton.setBounds(335, 10, 119, 23);
 			btnNewButton.addActionListener(new ActionListener() {
@@ -106,27 +110,31 @@ import java.awt.Font;
 					String selectedyear = (String) yearComboBox.getSelectedItem();
 					String selectedhours = (String) hoursComboBox.getSelectedItem();
 					String selectedminutes = (String) minutesComboBox.getSelectedItem();
+					//we create a string in the format of "MMMM d, yyyy HH:mm" from the selected date
 					String date = selectedmonth + " " +selecteday + ", " + selectedyear +" "+selectedhours+":"+selectedminutes;
-			
+					
+					
 					DateFormat format = new SimpleDateFormat("MMMM d, yyyy HH:mm", Locale.ENGLISH);
-					DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy HH:mm", Locale.ENGLISH);
 					Date currentdate = new Date();
-					System.out.println(dateFormat.format(currentdate));
+				
 					try {
-						Date realdate = format.parse(date);
-						
+							//transform string to date
+							Date birthdaydate = format.parse(date);
+							//transform date to localdate so it can be used with period.between
 							LocalDate dc = currentdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-							LocalDate db = realdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+							LocalDate db = birthdaydate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 							Period period = Period.between(db, dc);
-							
-						 	long diffInMillies = currentdate.getTime() - realdate.getTime();
+							//calculate the difference between current date and birthday date and save it in long variable
+						 	long diffInMillies = currentdate.getTime() - birthdaydate.getTime();
+						 	//calculate seconds, minutes and hours from the long variable (difference from current to birthday)
 						 	secs = (int) (TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS) % 60);
 						 	min =  (int) (TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS) / 60) % 60;
 						 	h = (int) ((TimeUnit.SECONDS.convert(diffInMillies,TimeUnit.MILLISECONDS) / 60) / 60)%24 +1;
+						 	//calculate age, days, months using period
 						 	days = period.getDays();
 						 	months = period.getMonths();
 						 	age = period.getYears(); 
-										 						 	
+							//set both textfields with the age	in years, months, days, hours, minutes, seconds		 						 	
 						 	textField = new JTextField("  Your are alive: " + Integer.toString(age) + " years " + Integer.toString(months) + " months "+ Integer.toString(days) +" days ");
 							textField.setBackground(UIManager.getColor("Button.background"));
 							textField.setBorder(BorderFactory.createMatteBorder(2,2,2,2,UIManager.getColor("Button.background")));
@@ -135,14 +143,14 @@ import java.awt.Font;
 							textField.setFont(new Font("Tahoma", Font.BOLD, 15));
 							textField.setForeground(Color.PINK);
 							textField.setColumns(10);
-							textField_2 = new JTextField("  "+Integer.toString(h) + " hours "+ Integer.toString(min)+" minutes and "+Integer.toString(secs)+" seconds!");
-							textField_2.setBackground(UIManager.getColor("Button.background"));
-							textField_2.setBorder(BorderFactory.createMatteBorder(2,2,2,2,UIManager.getColor("Button.background")));
-							textField_2.setBounds(20, 95, 450, 50);
-							getContentPane().add(textField_2);
-							textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-							textField_2.setForeground(Color.PINK);
-							textField_2.setColumns(10);
+							textField_3 = new JTextField("  "+Integer.toString(h) + " hours "+ Integer.toString(min)+" minutes and "+Integer.toString(secs)+" seconds!");
+							textField_3.setBackground(UIManager.getColor("Button.background"));
+							textField_3.setBorder(BorderFactory.createMatteBorder(2,2,2,2,UIManager.getColor("Button.background")));
+							textField_3.setBounds(20, 95, 450, 50);
+							getContentPane().add(textField_3);
+							textField_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+							textField_3.setForeground(Color.PINK);
+							textField_3.setColumns(10);
 						
 					} catch (ParseException e) {
 						//Auto-generated catch block
